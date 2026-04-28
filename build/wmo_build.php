@@ -1047,7 +1047,7 @@ exit;
 
 		$chunks = extract_mogi($wmo);
 
-		if ($GLOBALS['dump_bounds']){
+		if ($GLOBALS['dump_bounds'] ?? null){
 			echo "\n";
 			foreach ($chunks as $k => $v){
 				echo "$k,$v[0],$v[1],$v[2]\n";
@@ -1153,7 +1153,7 @@ exit;
 			);
 		}
 
-		if ($GLOBALS['dump_chunk_counts']){
+		if ($GLOBALS['dump_chunk_counts'] ?? null){
 			echo "\n";
 			foreach ($groups as $k => $v){
 				echo "group $k : ".count($v['pngs'])." pngs\n";
@@ -1185,13 +1185,13 @@ exit;
 		$y2s = array();
 
 		foreach ($chunks as $k => $pos){
-			$chunks[$k][1] -= $groups[$k]['h'];
+			$chunks[$k][1] -= $groups[$k]['h'] ?? 0;
 
 			$x1s[] = $chunks[$k][0];
 			$y1s[] = $chunks[$k][1];
 
-			$x2s[] = $chunks[$k][0] + $groups[$k]['w'];
-			$y2s[] = $chunks[$k][1] + $groups[$k]['h'];
+			$x2s[] = $chunks[$k][0] + ($groups[$k]['w'] ?? 0);
+			$y2s[] = $chunks[$k][1] + ($groups[$k]['h'] ?? 0);
 		}
 
 		$min_x = min($x1s);
@@ -1220,7 +1220,7 @@ exit;
 
 		foreach ($chunks as $k => $chunk){
 
-			if (is_array($groups[$k]['pngs']))
+			if (isset($groups[$k]['pngs']) && is_array($groups[$k]['pngs']))
 			foreach ($groups[$k]['pngs'] as $row){
 
 				$x = floor($chunk[0] + $row[3]);
@@ -1239,11 +1239,11 @@ exit;
 		# add labels last, so they're on the top
 		#
 
-		if ($GLOBALS['add_labels']){
+		if ($GLOBALS['add_labels'] ?? null){
 			foreach ($chunks as $k => $chunk){
 
-				$g_w = $groups[$k]['w'];
-				$g_h = $groups[$k]['h'];
+				$g_w = $groups[$k]['w'] ?? 0;
+				$g_h = $groups[$k]['h'] ?? 0;
 				$tx = $chunk[0] + 1;
 				$ty = $chunk[1] + 20;
 				$gx2 = $chunk[0]+$g_w;
@@ -1254,7 +1254,7 @@ exit;
 			}
 		}
 
-		if (!$GLOBALS['add_labels']){
+		if (!($GLOBALS['add_labels'] ?? null)){
 			if ($rotate==1){
 				echo shell_exec("convert $dst -rotate 90 $dst");
 			}
@@ -1382,8 +1382,8 @@ exit;
 
 	function read_int($fh){
                 $data = fread($fh, 4);
-                list($junk, $n) = unpack('V', $data);
-                return $n;
+                $arr = unpack('V', $data);
+                return $arr[1];
         }
 
 

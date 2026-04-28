@@ -88,7 +88,7 @@
 
 	function read_int($fh){
                 $data = fread($fh, 4);
-                list($junk, $n) = unpack('V', $data);
-                return $n;
+                $arr = unpack('V', $data);
+                return $arr[1];
         }
 

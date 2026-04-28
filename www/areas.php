@@ -168,9 +168,9 @@ $base_mop = 'http://cdn.iamcal.com/mapcraft/mopv1';
 	}
 
 
-	$map = $_GET['m'];
+	$map = $_GET['m'] ?? null;
 
-	if (!$hash[$map]) $map = '_';
+	if (!isset($hash[$map])) $map = '_';
 	$data = $hash[$map];
 ?>
 

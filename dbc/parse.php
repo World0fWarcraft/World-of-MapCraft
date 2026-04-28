@@ -12,7 +12,7 @@ foreach ($areas as $k => $v){
 }
 
 function get_children(&$children, $k){
-	if (!$children[$k]) return array();
+	if (!isset($children[$k])) return array();
 	$out = $children[$k];
 	foreach ($children[$k] as $k2 => $v){
 		$m = get_children($children, $k2);
@@ -151,6 +151,6 @@ exit;
 
 	function read_int($fh){
 		$data = fread($fh, 4);
-		list($junk, $n) = unpack('V', $data);
-		return $n;
+		$arr = unpack('V', $data);
+		return $arr[1];
 	}

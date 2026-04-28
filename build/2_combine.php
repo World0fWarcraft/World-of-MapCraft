@@ -96,7 +96,7 @@
 					$key = sprintf('%02d-%02d', $min_x+$x, $min_y+$y);
 				}
 
-				$file = $files[$key];
+				$file = $files[$key] ?? null;
 
 				if ($file){
 					$url = str_replace($pngs, $pngs_url, $file);

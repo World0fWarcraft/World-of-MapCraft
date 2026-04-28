@@ -147,11 +147,11 @@
 
 		global $colors;
 
-		if (!$colors[$dir]){
+		if (!isset($colors[$dir])){
 			die("ERROR: no compositing color found for $dir!\n");
 		}
 
-		$color = $colors[$dir] ? $colors[$dir] : 'NO-COLOR';
+		$color = $colors[$dir] ?? 'NO-COLOR';
 		echo "$dir: ($color) \n";
 
 		$tiles = array();
@@ -235,7 +235,7 @@
 				$found = 0;
 				for ($x2=$min_x; $x2<=$max_x; $x2++){
 					for ($y2=$min_y; $y2<=$max_y; $y2++){
-						if ($tiles["$x2/$y2"]){
+						if (isset($tiles["$x2/$y2"])){
 							$found = 1;
 							break 2;
 						}
@@ -246,14 +246,14 @@
 				# we need to actually make this tile!
 				$dst = "$pngs/$dir/tile_z{$zoom}_".sprintf('%02d_%02d', $x, $y).'.png';
 
-				$color = $colors[$dir] ? $colors[$dir] : '#000000';
+				$color = $colors[$dir] ?? '#000000';
 
 				#echo shell_exec("convert -size 256x256 null: -matte -compose Clear -composite -compose Over $dst");
 				echo shell_exec("convert -size 256x256 xc:$color $dst");
 
 				for ($x2=$min_x; $x2<=$max_x; $x2++){
 				for ($y2=$min_y; $y2<=$max_y; $y2++){
-					$file = $tiles["$x2/$y2"];
+					$file = $tiles["$x2/$y2"] ?? null;
 					if (!$file) continue;
 					$tile_x = ($x2-$min_x) * $slice;
 					$tile_y = ($y2-$min_y) * $slice;

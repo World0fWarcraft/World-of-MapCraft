@@ -29,7 +29,7 @@
 	# reduce reversed vectors
 	foreach (array_keys($vectors) as $v){
 		list($a,$b) = explode(',', $v);
-		if ($vectors["$b,$a"]){
+		if (isset($vectors["$b,$a"])){
 			unset($vectors["$b,$a"]);
 			unset($vectors[$v]);
 			echo '.';
@@ -53,7 +53,7 @@
 			$x2 = $x + $xd;
 			$y2 = $y + $yd;
 			$key = "{$x}_{$y},{$x2}_{$y2}";
-			if (!$vectors[$key]) break;
+			if (!isset($vectors[$key])) break;
 			unset($vectors[$key]);
 			$x = $x2;
 			$y = $y2;
